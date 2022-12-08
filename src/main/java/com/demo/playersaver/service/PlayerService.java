@@ -8,6 +8,7 @@ import com.demo.playersaver.model.Team;
 import com.demo.playersaver.repository.PlayerRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,9 +32,12 @@ public class PlayerService {
 
         var saved = playerConverter.toEntity(request, team);
 
-        playerRepository.save(saved);
+        if (getPlayerByTeamName(request.getTeamName()).size() < 12){
+            playerRepository.save(saved);
+            return playerConverter.convertPlayerToPlayerDto(saved);
+        }
 
-        return playerConverter.convertPlayerToPlayerDto(saved);
+        throw new RuntimeException("");
     }
 
     public List<PlayerDto> getAll() {
@@ -59,7 +63,43 @@ public class PlayerService {
         playerRepository.deleteById(fromDbPlayer.getId());
     }
 
+    public List<PlayerDto> getPlayerByTeamName(String teamName){
+        return playerRepository.findAll()
+                .stream()
+                .filter(player -> player.getTeam().getName().equals(teamName))
+                .map(player -> new PlayerDto(
+                        player.getName(),
+                        player.getLastname(),
+                        player.getMail(),
+                        player.getAge(),
+                        teamService.getByName(player.getTeam().getName()),
+                        player.getCreateDate(),
+                        player.getUpdateDate()
+                ))
+                .collect(Collectors.toList());
+
+
+
+        /*      USTTEKIYLE AYNI
+
+        List<PlayerDto> playerDtoList = new ArrayList<>();
+
+        for (Player player: playerRepository.findAll()){
+            if (player.getTeam().getName().equals(teamName)){
+                PlayerDto playerDto = new PlayerDto(player.getName(), player.getLastname(), player.getMail(), player.getAge(),
+                        teamService.getByName(player.getTeam().getName()),player.getCreateDate(),player.getUpdateDate());
+                playerDtoList.add(playerDto);
+            }
+        }
+        return playerDtoList;
+        */
+    }
+
+
+
+
     private Player getPlayerByMail(String mail) {
         return playerRepository.findPlayerByMail(mail);
     }
+
 }
