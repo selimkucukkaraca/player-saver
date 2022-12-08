@@ -38,4 +38,12 @@ public class PlayerController {
 
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/get-by-team-name")
+    public ResponseEntity<List<PlayerDto>> getPlayerByTeamName(@RequestParam String teamName){
+        return ResponseEntity
+                .ok(playerService.getPlayerByTeamName(teamName));
+    }
+
+
 }

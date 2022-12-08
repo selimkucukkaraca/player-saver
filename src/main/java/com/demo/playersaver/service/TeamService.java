@@ -3,6 +3,7 @@ package com.demo.playersaver.service;
 import com.demo.playersaver.dto.TeamDto;
 import com.demo.playersaver.dto.converter.TeamConverter;
 import com.demo.playersaver.dto.request.CreateTeamRequest;
+import com.demo.playersaver.exception.NotFountException;
 import com.demo.playersaver.model.Team;
 import com.demo.playersaver.repository.TeamRepository;
 import org.springframework.stereotype.Service;
@@ -40,6 +41,7 @@ public class TeamService {
     }
 
     protected Team getTeamByName(String name) {
-        return teamRepository.findTeamByName(name);
+        return teamRepository.findTeamByName(name)
+                .orElseThrow(() -> new NotFountException("Team not fount, team name: " + name));
     }
 }
