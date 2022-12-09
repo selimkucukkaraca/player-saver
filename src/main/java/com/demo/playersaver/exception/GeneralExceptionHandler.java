@@ -23,4 +23,9 @@ public class GeneralExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>("Message: " + exception.getMessage() + " (status): " + HttpStatus.NOT_FOUND, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(PlayerCountLimitExceededException.class)
+    public ResponseEntity<?> playerCountLimitExceededException(PlayerCountLimitExceededException exception){
+        return new ResponseEntity<>("Message: " + exception.getMessage() + " (status): " + HttpStatus.BAD_REQUEST, HttpStatus.BAD_REQUEST);
+    }
+
 }
