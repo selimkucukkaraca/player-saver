@@ -98,7 +98,7 @@ public class PlayerService {
 
 
 
-    private Player getPlayerByMail(String mail) {
+    protected Player getPlayerByMail(String mail) {
         return playerRepository.findPlayerByMail(mail);
     }
 
