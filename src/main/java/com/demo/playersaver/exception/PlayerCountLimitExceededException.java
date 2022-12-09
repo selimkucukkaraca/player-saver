@@ -1,4 +1,13 @@
 package com.demo.playersaver.exception;
 
-public class PlayerCountLimitExceededException {
+
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
+@ResponseStatus(HttpStatus.BAD_REQUEST)
+public class PlayerCountLimitExceededException extends RuntimeException{
+
+    public PlayerCountLimitExceededException(String message) {
+        super(message);
+    }
 }

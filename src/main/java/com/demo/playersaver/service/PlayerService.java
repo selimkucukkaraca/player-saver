@@ -3,12 +3,12 @@ package com.demo.playersaver.service;
 import com.demo.playersaver.dto.PlayerDto;
 import com.demo.playersaver.dto.converter.PlayerConverter;
 import com.demo.playersaver.dto.request.CreatePlayerRequest;
+import com.demo.playersaver.exception.PlayerCountLimitExceededException;
 import com.demo.playersaver.model.Player;
 import com.demo.playersaver.model.Team;
 import com.demo.playersaver.repository.PlayerRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,12 +32,12 @@ public class PlayerService {
 
         var saved = playerConverter.toEntity(request, team);
 
-        if (getPlayerByTeamName(request.getTeamName()).size() < 12){
-            playerRepository.save(saved);
-            return playerConverter.convertPlayerToPlayerDto(saved);
+        if (getPlayerByTeamName(request.getTeamName()).size() > 12){
+            throw new PlayerCountLimitExceededException("Maximum number of players reached!");
         }
+        playerRepository.save(saved);
+        return playerConverter.convertPlayerToPlayerDto(saved);
 
-        throw new RuntimeException("");
     }
 
     public List<PlayerDto> getAll() {

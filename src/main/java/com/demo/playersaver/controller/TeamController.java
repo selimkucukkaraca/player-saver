@@ -4,10 +4,7 @@ import com.demo.playersaver.dto.TeamDto;
 import com.demo.playersaver.dto.request.CreateTeamRequest;
 import com.demo.playersaver.service.TeamService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/team")
@@ -24,4 +21,11 @@ public class TeamController {
         return ResponseEntity
                 .ok(teamService.save(request));
     }
+
+    @DeleteMapping
+    public ResponseEntity<?> delete(@RequestParam String name){
+        teamService.delete(name);
+        return ResponseEntity.noContent().build();
+    }
+
 }
