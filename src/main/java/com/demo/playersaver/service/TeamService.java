@@ -27,7 +27,7 @@ public class TeamService {
             teamRepository.save(saved);
         }
 
-        return teamConverter.convertTeamToTeamDtoConverter(saved);
+        return teamConverter.convertTeamToTeamDto(saved);
     }
 
     public void delete(String name) {
@@ -37,7 +37,7 @@ public class TeamService {
     }
 
     public TeamDto getByName(String name) {
-        return teamConverter.convertTeamToTeamDtoConverter(getTeamByName(name));
+        return teamConverter.convertTeamToTeamDto(getTeamByName(name));
     }
 
     protected Team getTeamByName(String name) {

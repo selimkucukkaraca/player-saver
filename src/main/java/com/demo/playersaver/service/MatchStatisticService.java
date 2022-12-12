@@ -17,16 +17,14 @@ public class MatchStatisticService {
     private final MatchStatisticRepository matchStatisticRepository;
     private final MatchStatisticConverter matchStatisticConverter;
     private final PlayerService playerService;
-    private final PlayerConverter playerConverter;
+
 
     public MatchStatisticService(MatchStatisticRepository matchStatisticRepository,
                                  MatchStatisticConverter matchStatisticConverter,
-                                 PlayerService playerService,
-                                 PlayerConverter playerConverter) {
+                                 PlayerService playerService) {
         this.matchStatisticRepository = matchStatisticRepository;
         this.matchStatisticConverter = matchStatisticConverter;
         this.playerService = playerService;
-        this.playerConverter = playerConverter;
     }
 
     public MatchStatisticDto save(CreateMatchStatisticRequest request){
@@ -43,20 +41,7 @@ public class MatchStatisticService {
 
         return matchStatisticRepository.findMatchStatisticByPlayer(player)
                 .stream()
-                .map(matchStatistic -> new MatchStatisticDto(
-                        matchStatistic.getPoint(),
-                        matchStatistic.getEfficiencyScore(),
-                        matchStatistic.getRebound(),
-                        matchStatistic.getAssist(),
-                        matchStatistic.getShootStatistic(),
-                        matchStatistic.getTurnover(),
-                        matchStatistic.getFoul(),
-                        matchStatistic.getThreePoint(),
-                        matchStatistic.getTwoPoint(),
-                        matchStatistic.getOnePoint(),
-                        playerConverter.convertPlayerToPlayerDto(matchStatistic.getPlayer())
-
-                ))
+                .map(matchStatisticConverter::convertMatchStatisticToMatchStatisticDto)
                 .collect(Collectors.toList());
     }
 

@@ -43,17 +43,7 @@ public class PlayerService {
     public List<PlayerDto> getAll() {
         return playerRepository.findAll()
                 .stream()
-                .map(player ->
-                    new PlayerDto(
-                            player.getName(),
-                            player.getLastname(),
-                            player.getMail(),
-                            player.getAge(),
-                            teamService.getByName(player.getTeam().getName()),
-                            player.getCreateDate(),
-                            player.getUpdateDate()
-                    )
-                )
+                .map(playerConverter::convertPlayerToPlayerDto)
                 .collect(Collectors.toList());
     }
 

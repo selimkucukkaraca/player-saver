@@ -21,7 +21,7 @@ public class PlayerConverter {
                 from.getLastname(),
                 from.getMail(),
                 from.getAge(),
-                teamConverter.convertTeamToTeamDtoConverter(from.getTeam()),
+                teamConverter.convertTeamToTeamDto(from.getTeam()),
                 from.getCreateDate(),
                 from.getUpdateDate()
         );
